@@ -1,10 +1,8 @@
 # T3 Direct Connect
 
-Connect a tool-capable assistant to **T3 Code through T3 Connect and MCP** when browser approval does not finish terminal sign-in.
+This skill is for a dot, or any cloud assistant that can run terminal commands, when T3 Code connection setup gets stuck. In our tested environment, there was no Tailscale. Pairing worked in the browser, but OAuth sent the return URL to localhost in the browser's network context, so the dot's terminal that was waiting for the callback never received it. The workaround that worked was to use the public T3 Connect HTTPS address, the pairing flow that compatible T3 versions offer without a callback, and a direct MCP client running in the dot's terminal.
 
-In the tested dot setup, the terminal could reach the public T3 MCP endpoint. Pairing was accepted in the browser, but the OAuth return URL pointed at localhost in the **browser's network context**, separate from the terminal waiting for it. This skill explains how the JSON pairing flow available in compatible T3 versions completes the connection without that callback.
-
-Tailscale was also unavailable in that tested dot environment, so the working connection used the public T3 Connect HTTPS address. Other dots or hosted environments may have Tailscale available; check the actual environment rather than assuming the same limitation.
+That client itself sends MCP requests, so you don't need an extra model session just for carrying them. This does not make assistant or provider usage free or unlimited, and starting a T3 agent can still use its model provider. Other dots or hosted environments might have Tailscale or a working callback, so look at the actual environment first before assuming the same limitation.
 
 This repository contains an instructional [SKILL.md](SKILL.md). It explains discovery, approved pairing, credential protection, direct MCP requests, and verification. It does **not** include a runnable client, automatically install an integration, or grant network access or permissions.
 
